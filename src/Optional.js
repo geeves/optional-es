@@ -114,7 +114,7 @@ class Optional {
    *         action is {@code null}.
    * @since 9
    */
-  isPresentOrElse(action, emptyAction) {
+  ifPresentOrElse(action, emptyAction) {
     if ((true === this.isPresent() && true === isnotfunction(action))
       || (false === this.isPresent() && true === isnotfunction(emptyAction))) {
       throw new Error("[NullPointerException]   'action' and/or 'emptyAction' are not present");
