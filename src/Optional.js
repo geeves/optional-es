@@ -204,7 +204,7 @@ class Optional {
       && true === isnotfunction(supplier)) {
       throw new Error("[NullPointerException]   value or 'function' are not present");
     }
-    return isnotnull(this.value) ? this.value : supplier.get();
+    return isnotnull(this.value) ? this.value : supplier();
   }
 
   /**
@@ -253,11 +253,14 @@ class Optional {
     if (true === isnotfunction(predicate)) {
       throw new Error("[NullPointerException]   'predicate' is not a Function");
     }
-    if (false === isPresent()) {
-      return this;
-    } else {
-      return predicate.apply(this.value) ? this : empty();
+    if (false === this.isPresent()) {
+      return new Optional();
     }
+
+    if (isfunction(predicate) && true === predicate(this.value)) {
+      return Optional.of(this.value);
+    }
+    return Optional.empty();
   }
 
   /**
@@ -265,43 +268,25 @@ class Optional {
    * {@link #ofNullable}) the result of applying the given mapping function to
    * the value, otherwise returns an empty {@code Optional}.
    *
-   * <p>If the mapping function returns a {@code null} result then this method
-   * returns an empty {@code Optional}.
-   *
-   * @apiNote
-   * This method supports post-processing on {@code Optional} values, without
-   * the need to explicitly check for a return status.  For example, the
-   * following code traverses a stream of URIs, selects one that has not
-   * yet been processed, and creates a path from that URI, returning
-   * an {@code Optional<Path>}:
-   *
-   * <pre>{@code
-   *     Optional<Path> p =
-     *         uris.stream().filter(uri -> !isProcessedYet(uri))
-     *                       .findFirst()
-     *                       .map(Paths::get);
-     * }</pre>
-   *
-   * Here, {@code findFirst} returns an {@code Optional<URI>}, and then
-   * {@code map} returns an {@code Optional<Path>} for the desired
-   * URI if one exists.
-   *
    * @param mapper the mapping function to apply to a value, if present
    * @param <U> The type of the value returned from the mapping function
-   * @return an {@code Optional} describing the result of applying a mapping
-   *         function to the value of this {@code Optional}, if a value is
-   *         present, otherwise an empty {@code Optional}
+   * @return an {@code Optional} with the resulting value
+   *
    * @throws Error:NullPointerException if the mapping function is {@code null}
    */
   map(mapper) {
+    let mappedval = null;
     if (true === isnotfunction(mapper)) {
       throw new Error("[NullPointerException]   predicate 'mapper' is not a Function");
     }
     if (false === this.isPresent()) {
       return this.empty();
-    } else {
-      return Optional.ofNullable(mapper.apply(value));
     }
+    if (isnull(this.value)) {
+      return new Optional();
+    }
+    mappedval = mapper(this.value);
+    return isnull(mappedval) ? new Optional() : Optional.of(mappedval);
   }
 
   /**
@@ -327,16 +312,18 @@ class Optional {
     if (true === isnotfunction(mapper)) {
       throw new Error("[NullPointerException]   predicate 'mapper' is not a Function");
     }
-
-    if (false === isPresent()) {
-      return empty();
-    } else {
-      const flatMapped = mapper.apply(this.value);
-      if (true === isnull(flatMapped) || true === isnull(flatMapped.get)) {
-        throw new Error("[NullPointerException]   'result' is null");
-      }
-      return flatMapped;
+    if (false === this.isPresent()) {
+      return Optional.empty();
     }
+
+    const flatMapped = mapper(this.value);
+
+    if (true === isnull(flatMapped)
+      || false === flatMapped instanceof Optional
+      || true === isnull(flatMapped.get)) {
+      throw new Error("[NullPointerException]   'flatMapped' is not an instance of Optional");
+    }
+    return flatMapped;
   }
 
   /**
@@ -353,10 +340,23 @@ class Optional {
    *         otherwise {@code false}
    */
   equals(optional) {
-    if (this === optional) {
-      return true;
-    }
+    const hasValue = isnotnull(this.value);
     if (false === (optional instanceof Optional)) {
+      return false;
+    }
+    if (true === isnull(this.value)) {
+      return false;
+    }
+    try {
+      // the present values are "equal to"
+      if (this.value === optional.get()) {
+        return true;
+      }
+    } catch (e) {
+      // optional is null and this.value is null
+      if (false === hasValue) {
+        return true;
+      }
       return false;
     }
     return false;
@@ -381,11 +381,6 @@ class Optional {
    * Returns a non-empty string representation of this {@code Optional}
    * suitable for debugging.  The exact presentation format is unspecified and
    * may vary between implementations and versions.
-   *
-   * @implSpec
-   * If a value is present the result must include its string representation
-   * in the result.  Empty and present {@code Optional}s must be unambiguously
-   * differentiable.
    *
    * @return the string representation of this instance
    */
