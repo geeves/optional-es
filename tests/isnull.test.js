@@ -1,8 +1,15 @@
-import {isnull, isnotnull} from "../src/isnull";
-import {myobject, mynumber, myarray, mystring, myboolean, mynull, myundefined, myemptystring} from "./consts";
+import {isNotnull, isnull} from "../src/isnull";
+import {
+  myemptystring,
+  mynull,
+  myobject,
+  mystring,
+  myundefined
+} from "./consts";
 
 const myArrowFunction = () => {
 };
+
 function myfunction() {
 }
 
@@ -11,18 +18,18 @@ describe("Null Checks", () => {
     expect(isnull(mynull)).toEqual(true);
   });
   test("Not Null", () => {
-    expect(isnotnull(mynull)).toEqual(false);
+    expect(isNotnull(mynull)).toEqual(false);
   });
 
   test("Undefined", () => {
     expect(isnull(undefined)).toEqual(true);
   });
   test("Not Undefined", () => {
-    expect(isnotnull(myundefined)).toEqual(false);
+    expect(isNotnull(myundefined)).toEqual(false);
   });
 
   test("Is Empty String Not Null", () => {
-    expect(isnotnull(myemptystring)).toEqual(true);
+    expect(isNotnull(myemptystring)).toEqual(true);
   });
 
   test("Is Empty String Null", () => {
@@ -30,7 +37,7 @@ describe("Null Checks", () => {
   });
 
   test("Is String Not Null", () => {
-    expect(isnotnull(mystring)).toEqual(true);
+    expect(isNotnull(mystring)).toEqual(true);
   });
 
   test("Is String Null", () => {
@@ -38,7 +45,7 @@ describe("Null Checks", () => {
   });
 
   test("Is Object Not Null", () => {
-    expect(isnotnull(myobject)).toEqual(true);
+    expect(isNotnull(myobject)).toEqual(true);
   });
 
   test("Is Object Null", () => {
@@ -46,14 +53,14 @@ describe("Null Checks", () => {
   });
 
   test("Is Function Not Null", () => {
-    expect(isnotnull(myfunction)).toEqual(true);
+    expect(isNotnull(myfunction)).toEqual(true);
   });
 
   test("Is Function Null", () => {
     expect(isnull(myArrowFunction)).toEqual(false);
   });
   test("Is Function Call Not Null", () => {
-    expect(isnotnull(myfunction())).toEqual(false);
+    expect(isNotnull(myfunction())).toEqual(false);
   });
 
   test("Is Function Call Null", () => {

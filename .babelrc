@@ -1,11 +1,11 @@
 {
-  "plugins": [
-  ],
-  "presets": [
-    "es2015",
-    "stage-0"
-  ],
-  "ignore": [
-    "node_modules/**/*"
-  ]
+	"plugins": [
+	],
+	"presets": [
+		"es2015",
+		"stage-0"
+	],
+	"ignore": [
+		"node_modules/**/*"
+	]
 }

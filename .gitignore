@@ -1,4 +1,6 @@
 .idea
-optional-es.iml
-node_modules
+./optional-es.iml
+./node_modules
 coverage
+./tests
+./dist

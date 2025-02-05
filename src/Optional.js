@@ -1,6 +1,6 @@
 import hash from "js-hash-code";
-import {isnotnull, isnull} from "./isnull";
-import {isfunction, isnotfunction} from "./isfunction";
+import {isNotnull, isnull} from "./isnull";
+import {isfunction, isNotfunction} from "./isfunction";
 
 class Optional {
   constructor(value, loaded) {
@@ -39,7 +39,7 @@ class Optional {
    *
    * @param value the value to describe, which must be non-{@code null}
    * @param <T> the type of the value
-   * @return an {@code Optional} with the value present
+   * @return Optional {@code Optional} with the value present
    * @throws Error:NullPointerException if value is {@code null}
    */
   static of(value) {
@@ -55,7 +55,7 @@ class Optional {
    *
    * @param value the possibly-{@code null} value to describe
    * @param <T> the type of the value
-   * @return an {@code Optional} with a present value if the specified value
+   * @return Optional {@code Optional} with a present value if the specified value
    *         is non-{@code null}, otherwise an empty {@code Optional}
    */
   static ofNullable(value) {
@@ -71,7 +71,7 @@ class Optional {
    * @return {@code true} if a value is present, otherwise {@code false}
    */
   isPresent() {
-    return true === isnotnull(this.value);
+    return true === isNotnull(this.value);
   }
 
   /**
@@ -93,8 +93,8 @@ class Optional {
    */
   ifPresent(action) {
     if (true === this.isPresent()
-      && isnotnull(action)
-      && true === isnotfunction(action)) {
+      && isNotnull(action)
+      && true === isNotfunction(action)) {
       throw new Error("[NullPointerException]   'action' is not a method");
     }
     if (true === this.isPresent() && isfunction(action)) {
@@ -115,9 +115,9 @@ class Optional {
    * @since 9
    */
   ifPresentOrElse(action, emptyAction) {
-    if ((true === this.isPresent() && true === isnotfunction(action))
-      || (false === this.isPresent() && true === isnotfunction(emptyAction))) {
-      throw new Error("[NullPointerException]   'action' and/or 'emptyAction' are not present");
+    if ((true === this.isPresent() && true === isNotfunction(action))
+      || (false === this.isPresent() && true === isNotfunction(emptyAction))) {
+      throw new Error("[NullPointerException] 'action' and/or 'emptyAction' are not present");
     }
     if (this.isPresent()) {
       action(this.value)
@@ -156,18 +156,18 @@ class Optional {
    */
   or(supplier) {
     if (true === isnull(supplier)
-      || true === isnotfunction(supplier)) {
-      throw new Error("[NullPointerException]    Supplier is null");
+      || true === isNotfunction(supplier)) {
+      throw new Error("[NullPointerException] Supplier is null");
     }
     if (true === this.isPresent()) {
       return this;
     } else {
       const optional = supplier();
       if (true === isnull(optional)) {
-        throw new Error("[NullPointerException]    result of supplier is null");
+        throw new Error("[NullPointerException] result of supplier is null");
       }
       if (false === optional instanceof Optional) {
-        throw new Error("[NullPointerException]    result of supplier is null");
+        throw new Error("[NullPointerException] result of supplier is null");
       }
       return optional;
     }
@@ -201,10 +201,10 @@ class Optional {
    */
   orElseGet(supplier) {
     if (true === isnull(this.value)
-      && true === isnotfunction(supplier)) {
+      && true === isNotfunction(supplier)) {
       throw new Error("[NullPointerException]   value or 'function' are not present");
     }
-    return isnotnull(this.value) ? this.value : supplier();
+    return isNotnull(this.value) ? this.value : supplier();
   }
 
   /**
@@ -226,9 +226,9 @@ class Optional {
    */
   orElseThrow(exceptionSupplier) {
     if (false === this.isPresent()
-      && true === isnotnull(exceptionSupplier)
+      && true === isNotnull(exceptionSupplier)
       && false === (exceptionSupplier instanceof Error)) {
-      throw new Error("[NullPointerException]   Value is not present or 'exceptionSupplier' is not an Error");
+      throw new Error("[NullPointerException] Value is not present or 'exceptionSupplier' is not an Error");
     }
 
     if (true === this.isPresent()) {
@@ -244,13 +244,13 @@ class Optional {
    * empty {@code Optional}.
    *
    * @param predicate the predicate to apply to a value, if present
-   * @return an {@code Optional} describing the value of this
+   * @return Optional {@code Optional} describing the value of this
    *         {@code Optional}, if a value is present and the value matches the
    *         given predicate, otherwise an empty {@code Optional}
    * @throws Error:NullPointerException if the predicate is {@code null}
    */
   filter(predicate) {
-    if (true === isnotfunction(predicate)) {
+    if (true === isNotfunction(predicate)) {
       throw new Error("[NullPointerException]   'predicate' is not a Function");
     }
     if (false === this.isPresent()) {
@@ -270,13 +270,13 @@ class Optional {
    *
    * @param mapper the mapping function to apply to a value, if present
    * @param <U> The type of the value returned from the mapping function
-   * @return an {@code Optional} with the resulting value
+   * @return Optional {@code Optional} with the resulting value
    *
    * @throws Error:NullPointerException if the mapping function is {@code null}
    */
   map(mapper) {
     let mappedval = null;
-    if (true === isnotfunction(mapper)) {
+    if (true === isNotfunction(mapper)) {
       throw new Error("[NullPointerException]   predicate 'mapper' is not a Function");
     }
     if (false === this.isPresent()) {
@@ -309,7 +309,7 @@ class Optional {
    *         returns a {@code null} result
    */
   flatMap(mapper) {
-    if (true === isnotfunction(mapper)) {
+    if (true === isNotfunction(mapper)) {
       throw new Error("[NullPointerException]   predicate 'mapper' is not a Function");
     }
     if (false === this.isPresent()) {
@@ -340,7 +340,7 @@ class Optional {
    *         otherwise {@code false}
    */
   equals(optional) {
-    const hasValue = isnotnull(this.value);
+    const hasValue = isNotnull(this.value);
     if (false === (optional instanceof Optional)) {
       return false;
     }

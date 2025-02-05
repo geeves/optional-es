@@ -1,11 +1,12 @@
-import {isfunction, isnotfunction} from "../src/isfunction";
+import {isfunction, isNotfunction} from "../src/isfunction";
 
-import  {myobject, mynumber, myarray, mystring, myboolean} from "./consts";
+import {myarray, myboolean, mynumber, myobject, mystring} from "./consts";
 
 const myArrowFunction = () => {
 };
 const myConstFunction = function () {
 };
+
 function myfunction() {
 }
 
@@ -78,67 +79,67 @@ describe("Function Tests Opposite", () => {
 
 describe("IsNotFunction Tests", () => {
   test("My Function", () => {
-    expect(isnotfunction(myfunction)).toEqual(false);
+    expect(isNotfunction(myfunction)).toEqual(false);
   });
   test("My Const Function", () => {
-    expect(isnotfunction(myConstFunction)).toEqual(false);
+    expect(isNotfunction(myConstFunction)).toEqual(false);
   });
   test("My Arrow Function", () => {
-    expect(isnotfunction(myArrowFunction)).toEqual(false);
+    expect(isNotfunction(myArrowFunction)).toEqual(false);
   });
   test("My String", () => {
-    expect(isnotfunction(mystring)).toEqual(true);
+    expect(isNotfunction(mystring)).toEqual(true);
   });
   test("My Number", () => {
-    expect(isnotfunction(mynumber)).toEqual(true);
+    expect(isNotfunction(mynumber)).toEqual(true);
   });
   test("My Object", () => {
-    expect(isnotfunction(myobject)).toEqual(true);
+    expect(isNotfunction(myobject)).toEqual(true);
   });
   test("My Array", () => {
-    expect(isnotfunction(myarray)).toEqual(true);
+    expect(isNotfunction(myarray)).toEqual(true);
   });
   test("My Boolean", () => {
-    expect(isnotfunction(myboolean)).toEqual(true);
+    expect(isNotfunction(myboolean)).toEqual(true);
   });
   test("Undefined", () => {
-    expect(isnotfunction(undefined)).toEqual(true);
+    expect(isNotfunction(undefined)).toEqual(true);
   });
   test("Null", () => {
-    expect(isnotfunction(null)).toEqual(true);
+    expect(isNotfunction(null)).toEqual(true);
   });
 });
 
 describe("Function Tests Opposite", () => {
   test("My Function", () => {
-    expect(isnotfunction(myfunction)).not.toEqual(true);
+    expect(isNotfunction(myfunction)).not.toEqual(true);
   });
 
   test("My Const Function", () => {
-    expect(isnotfunction(myConstFunction)).not.toEqual(true);
+    expect(isNotfunction(myConstFunction)).not.toEqual(true);
   });
   test("My Arrow Function", () => {
-    expect(isnotfunction(myArrowFunction)).not.toEqual(true);
+    expect(isNotfunction(myArrowFunction)).not.toEqual(true);
   });
   test("My String", () => {
-    expect(isnotfunction(mystring)).not.toEqual(false);
+    expect(isNotfunction(mystring)).not.toEqual(false);
   });
   test("My Number", () => {
-    expect(isnotfunction(mynumber)).not.toEqual(false);
+    expect(isNotfunction(mynumber)).not.toEqual(false);
   });
   test("My Object", () => {
-    expect(isnotfunction(myobject)).not.toEqual(false);
+    expect(isNotfunction(myobject)).not.toEqual(false);
   });
   test("My Array", () => {
-    expect(isnotfunction(myarray)).not.toEqual(false);
+    expect(isNotfunction(myarray)).not.toEqual(false);
   });
   test("My Boolean", () => {
-    expect(isnotfunction(myboolean)).not.toEqual(false);
+    expect(isNotfunction(myboolean)).not.toEqual(false);
   });
   test("Undefined", () => {
-    expect(isnotfunction(undefined)).not.toEqual(false);
+    expect(isNotfunction(undefined)).not.toEqual(false);
   });
   test("Null", () => {
-    expect(isnotfunction(null)).not.toEqual(false);
+    expect(isNotfunction(null)).not.toEqual(false);
   });
 });
